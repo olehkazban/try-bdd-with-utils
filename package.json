@@ -1,0 +1,19 @@
+{
+  "name": "try-tdd-util",
+  "version": "1.0.0",
+  "description": "Project Template to try TDD/BDD technic on common util functions",
+  "main": "utils.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "test",
+    "bdd",
+    "utils",
+    "tdd",
+    "learn",
+    "study"
+  ],
+  "author": "nesterone",
+  "license": "MIT"
+}
