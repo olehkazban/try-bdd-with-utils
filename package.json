@@ -1,10 +1,10 @@
 {
-  "name": "try-tdd-util",
+  "name": "try-bdd-util",
   "version": "1.0.0",
   "description": "Project Template to try TDD/BDD technic on common util functions",
   "main": "utils.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha test.js"
   },
   "keywords": [
     "test",
