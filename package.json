@@ -1,8 +1,8 @@
 {
-  "name": "try-bdd-util",
+  "name": "try-bdd-with-utils",
   "version": "1.0.0",
-  "description": "Project Template to try TDD/BDD technic on common util functions",
-  "main": "utils.js",
+  "description": "Project Template to try TDD/BDD technique on common utils functions",
+  "main": "src/utils.js",
   "scripts": {
     "test": "mocha test.js"
   },

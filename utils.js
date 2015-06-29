@@ -1,6 +1,5 @@
 module.exports = {
  
- 
     /**
      * Sort given array by provided rule in comparator function
      * @param {Array} list
