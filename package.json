@@ -4,7 +4,7 @@
   "description": "Project Template to try TDD/BDD technique on common utils functions",
   "main": "src/utils.js",
   "scripts": {
-    "test": "mocha test.js --require expect.js",
+    "test": "mocha test.js",
     "test-in-browser": "beefy test.js"
   },
   "keywords": [
