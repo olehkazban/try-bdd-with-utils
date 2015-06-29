@@ -1,5 +1,4 @@
-var expect = require('chai').expect,
-	utils = require('./utils');
+var utils = require('./utils');
 
 describe('Utils', function() {
 
