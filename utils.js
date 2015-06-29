@@ -39,6 +39,16 @@ module.exports = {
     trim:function (str) {
         return "";
     },
+
+    /**
+     * Reverses a specified list.
+     * @param {Array} list - a list to be reversed, may be empty.
+     * @return {Array} - the same instance of list but reverted
+     */
+ 
+    reverse:function (list) {
+        return [];
+    },
  
     /**
      *  Change each list's element by applying handler
