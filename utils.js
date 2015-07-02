@@ -70,6 +70,31 @@ module.exports = {
  
     groupBy:function (list, iterator) {
         return {};
+    },
+
+    /**
+     * Creates a version of the function that can only be called one time. 
+     * Repeated calls to the modified function will have no effect. 
+     * @param {Function} func - your target function
+     * @return {Function} new  function which could be invoked only once
+     */
+
+    once: function(func){
+        return;
+    }, 
+
+
+    /**
+     * Creates and returns a new debounced version of the passed function 
+     * which will postpone its execution until after wait milliseconds 
+     * have elapsed since the last time it was invoked. 
+     * @param {Function} func - your target function
+     * @param {Number} wait -  milliseconds have elapsed since the last time it was invoked
+     * @return {Function} new debounced version of the passed function
+     */
+
+    debounce: function(func, wait){
+        return;
     }
  
 };
