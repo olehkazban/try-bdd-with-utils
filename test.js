@@ -135,11 +135,49 @@ describe('Utils', function() {
     });
   });
 
-  //describe('#map()', function() {
-  //  it('should change each list element by applying handler', function() {
-  //  });
-  //});
-  //
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      var testArray = [0, 1, 2, 3];
+      var reversedArray = utils.reverse(testArray);
+
+      expect(utils.reverse(testArray)).to.equal(reversedArray);
+    });
+  });
+
+  describe('#map()', function() {
+    it('should change each list element by applying handler', function() {
+      var testArray = [1, 2, 3, 4, 5];
+
+      expect(utils.map(testArray, function(int) { return ++int; }).join()).to.equal([2, 3, 4, 5, 6].join());
+    });
+  });
+
+  describe('#map()', function() {
+    it('should change each list element by applying handler', function() {
+      var testObject = {
+        firstName: 'SomeFirstName',
+        lastName: 'SomeLastName',
+        address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
+        age: 35,
+        phone: '+380677760670'
+      };
+
+      var equalObject = {
+        firstName: 'SOMEFIRSTNAME',
+        lastName: 'SOMELASTNAME',
+        address: 'UKRAINE, KHARKIV, NOVGORODSKA STR, 3B',
+        age: 35,
+        phone: '+380677760670'
+      };
+
+      expect(utils.map(testObject, function(string){
+        string += '';
+        return string.toUpperCase();  }).toString()).to.equal(equalObject.toString());
+    });
+  });
+
+
+
   //describe('#groupBy()', function() {
   //  it('should group some input sequence of element by some rule', function() {
   //  });

@@ -18,6 +18,54 @@ var spaceString2 = 'abdfrg   ';
 var spaceString3 = '  abd frg   ';
 var spaceString4 = 'abd   frg';
 
+//var testObject1 = {
+//  firstName: 'FirstName',
+//  lastName: 'LastName',
+//  address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
+//  age: 35,
+//  phone: '+380677760670'
+//};
+
+//console.log(testArray8 + ' : ' + utils.map(testArray8, function (int) {
+//    return ++int;
+//  }));
+//
+//console.log(testObject1 + ' : ' + utils.map(testObject1, function (field) {
+//    return field.toUpperCase();
+//  }));
+//
+//console.log(testObject1 + ' : ' + utils.map(testObject1, function (field) {
+//    return field.toUpperCase();
+//  }));
+
+function testMap(){
+  var testObject1 = {
+    firstName: 'SomeFirstName',
+    lastName: 'SomeLastName',
+    address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
+    age: 35,
+    phone: '+380677760670'
+  };
+
+  var testObject2 = utils.map(testObject1, function(string){
+    string += '';
+    return string.toUpperCase(); });
+
+  printObject(testObject1);
+  printObject(testObject2);
+
+};
+
+testMap();
+
+function printObject(object) {
+  for (var objectProperty in object) {
+    console.log(object[objectProperty]);
+  }
+};
+
+//printObject(testObject1);
+
 //console.log(testArray1 + ' : ' + utils.camelize(testArray1));
 //console.log(testArray2 + ' : ' + utils.camelize(testArray2));
 //console.log(testArray3 + ' : ' + utils.camelize(testArray3));
@@ -50,4 +98,6 @@ var spaceString4 = 'abd   frg';
 //
 //console.log('typeof string: ' + (typeof testString1));
 
-console.log(Object.prototype.toString.call(testArray1).toUpperCase());
+//console.log(Object.prototype.toString.call(testArray1).toUpperCase());
+//console.log(Object.prototype.toString.call(testString1).toUpperCase());
+//console.log(Object.prototype.toString.call(testObject1).toUpperCase());

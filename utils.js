@@ -121,7 +121,25 @@ module.exports = {
    */
 
   map: function (list, iterator) {
-    return [];
+    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT OBJECT]') {
+      var newObject = {};
+
+      for (var listProperty in list) {
+        if (list.hasOwnProperty(listProperty)) {
+          newObject[listProperty] = iterator(list[listProperty]);
+        }
+      }
+
+      return newObject;
+    } else if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+      var newList = [];
+
+      for (var count = 0; count < list.length; count++) {
+        newList.push(iterator(list[count]));
+      }
+
+      return newList;
+    }
   },
 
   /**
@@ -157,6 +175,32 @@ module.exports = {
 
   debounce: function (func, wait) {
     return;
+  },
+
+  deepEqual: function (value1, value2) {
+
+    if (typeof value1 === 'object' &&
+      typeof value2 === 'object' &&
+      value1 !== null &&
+      value2 !== null) {
+
+      if (Object.keys(value1).length !== Object.keys(value2).length) {
+        return false;
+      } else {
+        for (var key in value1) {
+          if (typeof value1[key] === 'object') {
+            return deepEqual(value1[key], value2[key]);
+          } else {
+            return (value1[key] === value2[key]);
+          }
+        }
+      }
+
+    } else {
+      return (value1 === value2);
+    }
+
   }
+
 
 };
