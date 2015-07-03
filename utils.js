@@ -50,8 +50,7 @@ module.exports = {
       return m.toUpperCase();
     });
     return string;
-  }
-  ,
+  },
 
   /**
    * Camelize given string or array of string
@@ -62,16 +61,28 @@ module.exports = {
   camelize: function (sequence) {
     var string = '';
 
-    if (sequence instanceof Array) {
+    if ((typeof sequence) === 'object') {
       for (var counter = 0; counter < sequence.length; counter++) {
-        if (/[a-zA-Zà-ÿÀ-ß]/.test(sequence[counter])) {
+        if ((typeof sequence[counter]) === 'object') {
+          var subSequence = sequence[counter];
+          string += module.exports.camelize(subSequence);
+        } else if (/\s/.test(sequence[counter])) {
+          var subSequence = sequence[counter].split(' ');
+          string += module.exports.camelize(subSequence);
+        } else {
+          sequence[counter] = sequence[counter].replace(/\W/, ''); // removing spec chars
+          sequence[counter] = sequence[counter].replace(/[0-9]]/); // removing digits
 
+          string += module.exports.capitalize(sequence[counter]);
         }
       }
-    } else if (sequence instanceof String) {
+    }
+    else if ((typeof sequence) === 'string') {
+      var subSequence = sequence.split(' ');
+      string += module.exports.camelize(subSequence);
     }
 
-
+    return string;
   },
 
   /**
@@ -82,8 +93,7 @@ module.exports = {
 
   trim: function (str) {
     return "";
-  }
-  ,
+  },
 
   /**
    * Reverses a specified list.
@@ -93,8 +103,7 @@ module.exports = {
 
   reverse: function (list) {
     return [];
-  }
-  ,
+  },
 
   /**
    *  Change each list's element by applying handler
@@ -105,8 +114,7 @@ module.exports = {
 
   map: function (list, iterator) {
     return [];
-  }
-  ,
+  },
 
   /**
    * Group some input sequence of element by some rule
@@ -117,8 +125,7 @@ module.exports = {
 
   groupBy: function (list, iterator) {
     return {};
-  }
-  ,
+  },
 
   /**
    * Creates a version of the function that can only be called one time.
@@ -129,8 +136,7 @@ module.exports = {
 
   once: function (func) {
     return;
-  }
-  ,
+  },
 
   /**
    * Creates and returns a new debounced version of the passed function
@@ -145,5 +151,4 @@ module.exports = {
     return;
   }
 
-}
-;
+};

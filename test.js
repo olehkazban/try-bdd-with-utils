@@ -51,34 +51,46 @@ describe('Utils', function() {
     });
   });
 
-  describe('#trim()', function() {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+  describe('#camelize()', function() {
+    it('should camelize given array of string', function() {
+      expect(utils.camelize(['just try to','do','it!'])).to.equal('JustTryToDoIt');
     });
   });
 
-  describe('#reverse()', function() {
-    it('should reverses a specified list', function() {
+  describe('#camelize()', function() {
+    it('should camelize given array of string', function() {
+      expect(utils.camelize([['just try to','do','it!'],'do','it!'])).to.equal('JustTryToDoItDoIt');
     });
   });
 
-  describe('#map()', function() {
-    it('should change each list element by applying handler', function() {
-    });
-  });
-
-  describe('#groupBy()', function() {
-    it('should group some input sequence of element by some rule', function() {
-    });
-  });
-
-  describe('#once()', function() {
-    it('should create a version of the function that can only be called one time', function() {
-    });
-  });
-
-  describe('#debounce()', function() {
-    it('should create and return a new debounced version of the passed function', function() {
-    });
-  });
+  //describe('#trim()', function() {
+  //  it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+  //  });
+  //});
+  //
+  //describe('#reverse()', function() {
+  //  it('should reverses a specified list', function() {
+  //  });
+  //});
+  //
+  //describe('#map()', function() {
+  //  it('should change each list element by applying handler', function() {
+  //  });
+  //});
+  //
+  //describe('#groupBy()', function() {
+  //  it('should group some input sequence of element by some rule', function() {
+  //  });
+  //});
+  //
+  //describe('#once()', function() {
+  //  it('should create a version of the function that can only be called one time', function() {
+  //  });
+  //});
+  //
+  //describe('#debounce()', function() {
+  //  it('should create and return a new debounced version of the passed function', function() {
+  //  });
+  //});
 
 });
