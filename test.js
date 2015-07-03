@@ -46,6 +46,12 @@ describe('Utils', function() {
   });
 
   describe('#camelize()', function() {
+    it('should camelize given string', function() {
+      expect(utils.camelize('just   do  it!')).to.equal('JustDoIt');
+    });
+  });
+
+  describe('#camelize()', function() {
     it('should camelize given array of string', function() {
       expect(utils.camelize(['just','do','it!'])).to.equal('JustDoIt');
     });
@@ -60,6 +66,12 @@ describe('Utils', function() {
   describe('#camelize()', function() {
     it('should camelize given array of string', function() {
       expect(utils.camelize([['just try to','do','it!'],'do','it!'])).to.equal('JustTryToDoItDoIt');
+    });
+  });
+
+  describe('#camelize()', function() {
+    it('should camelize given array of string', function() {
+      expect(utils.camelize([['just   try  to','do','it!'],'do','it!'])).to.equal('JustTryToDoItDoIt');
     });
   });
 

@@ -5,11 +5,14 @@ var testArray2 = ['just try to:', 'do', 'it!'];
 var testArray3 = [['just', 'do', 'it!'], 'and do', 'it!'];
 
 var testString1 = 'just do it!';
+var testString2 = 'just   do  it!';
 
 console.log(testArray1 + ' : ' + utils.camelize(testArray1));
 console.log(testArray2 + ' : ' + utils.camelize(testArray2));
 console.log(testArray3 + ' : ' + utils.camelize(testArray3));
+
 console.log(testString1 + ' : ' + utils.camelize(testString1));
+console.log(testString2 + ' : ' + utils.camelize(testString2));
 
 //console.log('Array instance of');
 //console.log('Array: ' + (testArray1 instanceof Array));
