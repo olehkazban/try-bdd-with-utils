@@ -75,11 +75,36 @@ describe('Utils', function() {
     });
   });
 
-  //describe('#trim()', function() {
-  //  it('should cut of any count of spaces from the beginning and from the end of the string', function() {
-  //  });
-  //});
-  //
+  describe('#trim()', function() {
+    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+      expect(utils.trim('just try to do it!')).to.equal('just try to do it!');
+    });
+  });
+
+  describe('#trim()', function() {
+    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+      expect(utils.trim('   just try to do it!')).to.equal('just try to do it!');
+    });
+  });
+
+  describe('#trim()', function() {
+    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+      expect(utils.trim('just try to do it!     ')).to.equal('just try to do it!');
+    });
+  });
+
+  describe('#trim()', function() {
+    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+      expect(utils.trim(' just try to do it!     ')).to.equal('just try to do it!');
+    });
+  });
+
+  describe('#trim()', function() {
+    it('should cut of any count of spaces from the beginning and from the end of the string', function() {
+      expect(utils.trim(' just   try  to do it!     ')).to.equal('just   try  to do it!');
+    });
+  });
+
   //describe('#reverse()', function() {
   //  it('should reverses a specified list', function() {
   //  });

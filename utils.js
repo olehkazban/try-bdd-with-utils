@@ -91,8 +91,9 @@ module.exports = {
    * @return {String}
    */
 
-  trim: function (str) {
-    return "";
+  trim: function (string) {
+    string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
+    return string;
   },
 
   /**
