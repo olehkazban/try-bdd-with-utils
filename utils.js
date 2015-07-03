@@ -61,7 +61,7 @@ module.exports = {
   camelize: function (sequence) {
     var string = '';
 
-    if ((typeof sequence) === 'object') {
+    if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]') {
       for (var counter = 0; counter < sequence.length; counter++) {
         if ((typeof sequence[counter]) === 'object') {
           var subSequence = sequence[counter];
@@ -77,7 +77,7 @@ module.exports = {
         }
       }
     }
-    else if ((typeof sequence) === 'string') {
+    else if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]') {
       var subSequence = sequence.split(' ');
       string += module.exports.camelize(subSequence);
     }
@@ -103,7 +103,14 @@ module.exports = {
    */
 
   reverse: function (list) {
-    return [];
+
+    for (var count = 0; count < list.length / 2; count++) {
+      var tmp = list[count];
+      list[count] = list[list.length - 1 - count];
+      list[list.length - 1 - count] = tmp;
+    }
+
+    return list;
   },
 
   /**

@@ -105,11 +105,36 @@ describe('Utils', function() {
     });
   });
 
-  //describe('#reverse()', function() {
-  //  it('should reverses a specified list', function() {
-  //  });
-  //});
-  //
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      expect(utils.reverse([]).join()).to.equal([].join());
+    });
+  });
+
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      expect(utils.reverse([0]).join()).to.equal([0].join());
+    });
+  });
+
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      expect(utils.reverse([0, 1]).join()).to.equal([1, 0].join());
+    });
+  });
+
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      expect(utils.reverse([0, 1, 2]).join()).to.equal([2, 1, 0].join());
+    });
+  });
+
+  describe('#reverse()', function() {
+    it('should reverses a specified list', function() {
+      expect(utils.reverse([0, 1, 2, 3]).join()).to.equal([3, 2, 1, 0].join());
+    });
+  });
+
   //describe('#map()', function() {
   //  it('should change each list element by applying handler', function() {
   //  });
