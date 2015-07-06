@@ -196,7 +196,20 @@ module.exports = {
    */
 
   once: function (func) {
-    return;
+
+    var instance;
+
+    function createInstance() {
+
+      if (func) {
+        instance = func.apply(this, arguments);
+        func = null;
+      }
+
+      return instance;
+    }
+
+    return createInstance();
   },
 
   /**
@@ -277,6 +290,12 @@ module.exports = {
       return (value1 === value2);
     }
   },
+
+  /**
+   * Utility function for coverting Object to String.
+   * Accept an Object and convert it as key : value string.
+   * @param {Array | Object} array or object to be compared to
+   */
 
   toString: function (object) {
     var string = '';

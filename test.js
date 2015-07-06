@@ -16,7 +16,7 @@ describe('Utils', function () {
       }), [3, 2, 1, 0])).to.equal(true);
     });
 
-    it('We expect that we accept an Array, but not object or something else', function () {
+    it('We expect that we accept an Array, but not string', function () {
       expect(function () {
         utils.sort('test me if you can :)', function (a, b) {
           return a < b;
@@ -257,6 +257,17 @@ describe('Utils', function () {
           return true;
         });
       }).to.throwError('Incorrect input data format');
+    });
+  });
+
+  describe('#once()', function() {
+    it('Should return the same instance of function', function() {
+      var testVar = 'try to test me :)';
+
+      var testFunc1 = utils.once(function(){ return testVar.toUpperCase()});
+      var testFunc2 = utils.once(function(){ return testVar.toUpperCase()});
+
+      expect(testFunc1).to.equal(testFunc2);
     });
   });
 
