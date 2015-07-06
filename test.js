@@ -154,50 +154,111 @@ describe('Utils', function () {
       expect(utils.reverse(testArray1) === utils.reverse(testArray2)).to.equal(false);
     });
 
-    it('Should fail if input is not Array', function() {
-      expect(function() {
+    it('Should fail if input is not Array', function () {
+      expect(function () {
         utils.reverse('try to test me :)')
       }).to.throwError('Incorrect input data format');
     });
   });
 
   describe('#map()', function () {
-    it('should change each list element by applying handler', function () {
+    it('Should change each list element by applying handler', function () {
       var testArray = [1, 2, 3, 4, 5];
 
-      expect(utils.map(testArray, function (int) {
+      expect(utils.deepEqual(utils.map(testArray, function (int) {
         return ++int;
-      }).join()).to.equal([2, 3, 4, 5, 6].join());
+      }), [2, 3, 4, 5, 6])).to.equal(true);
     });
-  });
 
-  describe('#map()', function () {
-    it('should change each list element by applying handler', function () {
+    it('Should change each object key value by applying handler', function () {
       var testObject = {
         firstName: 'SomeFirstName',
         lastName: 'SomeLastName',
         address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
-        age: 35,
+        age: '35',
         phone: '+380677760670'
       };
-
       var equalObject = {
         firstName: 'SOMEFIRSTNAME',
         lastName: 'SOMELASTNAME',
         address: 'UKRAINE, KHARKIV, NOVGORODSKA STR, 3B',
-        age: 35,
+        age: '35',
         phone: '+380677760670'
       };
 
-      expect(utils.map(testObject, function (string) {
-        string += '';
+      expect(utils.deepEqual(utils.map(testObject, function (string) {
         return string.toUpperCase();
-      }).toString()).to.equal(equalObject.toString());
+      }), equalObject)).to.equal(true);
+    });
+
+    it('Should fail if input is not an Array or Object', function () {
+      expect(function () {
+        utils.map('try to test me :)', function () {
+          return true
+        })
+      }).to.throwError('Incorrect input data format');
     });
   });
 
+  describe('#groupBy()', function () {
+    it('Should accept an empty array and return an empty object', function () {
+      var testArray = [];
+      var expectedObject = {};
 
-  describe('#deepEqual', function () {
+      expect(utils.deepEqual(utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      }), expectedObject)).to.equal(true);
+    });
+
+    it('Should accept array with single element and return according object', function () {
+      var testArray = [1.1];
+      var expectedObject = {
+        1: [1.1]
+      };
+
+      expect(utils.deepEqual(utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      }), expectedObject)).to.equal(true);
+    });
+
+    it('Should group input sequnce in accordance with iterator and pass', function () {
+      var testArray = [1.1, 4.5, 3.8, 3.1, 1.2, 1.3, 4.6, 5.2, 1.22, 5.25];
+      var expectedObject = {
+        1: [1.1, 1.2, 1.3, 1.22],
+        3: [3.8, 3.1],
+        4: [4.5, 4.6],
+        5: [5.2, 5.25]
+      };
+
+      expect(utils.deepEqual(utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      }), expectedObject)).to.equal(true);
+    });
+
+    it('Should group input sequnce in accordance with iterator and sort fields value by using util.sort()', function () {
+      var testArray = [1.1, 4.5, 3.8, 3.1, 1.2, 1.3, 4.6, 5.2, 1.22, 5.25];
+      var expectedObject = {
+        1: [1.1, 1.2, 1.22, 1.3],
+        3: [3.1, 3.2],
+        4: [4.5, 4.6],
+        5: [5.2, 5.25]
+      };
+
+      expect(utils.deepEqual(utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      }), expectedObject)).to.equal(true);
+    });
+
+    it('Should fail if input is not an Array', function () {
+      expect(function () {
+        utils.groupBy('try to input me :)', function () {
+          return true;
+        });
+      }).to.throwError('Incorrect input data format');
+    });
+  });
+
+  describe('#deepEqual()', function () {
     it('Should compare and pass equal arrays of equal size', function () {
       var testArray1 = [1, 2, 3];
       var testArray2 = [1, 2, 3];

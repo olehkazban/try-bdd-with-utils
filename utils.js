@@ -129,6 +129,7 @@ module.exports = {
    */
 
   map: function (list, iterator) {
+
     if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT OBJECT]') {
       var newObject = {};
 
@@ -147,6 +148,8 @@ module.exports = {
       }
 
       return newList;
+    } else {
+      throw new Error('Incorrect input data format');
     }
   },
 
@@ -158,7 +161,22 @@ module.exports = {
    */
 
   groupBy: function (list, iterator) {
-    return {};
+    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+      var object = {};
+
+      for (var count = 0; count < list.length; count++) {
+        if (!object.hasOwnProperty(iterator(list[count]))) {
+          object[iterator(list[count])] = [];
+          object[iterator(list[count])].push(list[count]);
+        } else {
+          object[iterator(list[count])].push(list[count]);
+        }
+      }
+    } else {
+      throw new Error('Incorrect input data format');
+    }
+
+    return object;
   },
 
   /**
@@ -211,6 +229,11 @@ module.exports = {
             Object.prototype.toString.call(value2[key]).toUpperCase() === '[OBJECT OBJECT]'
           ) {
             return module.exports.deepEqual(value1[key], value2[key]);
+          } else if (
+            Object.prototype.toString.call(value1[key]).toUpperCase() === '[OBJECT ARRAY]' &&
+            Object.prototype.toString.call(value2[key]).toUpperCase() === '[OBJECT ARRAY]'
+          ) {
+            return module.exports.deepEqual(value1[key], value2[key]);
           } else {
             flags.push(value1[key] === value2[key]);
           }
@@ -244,5 +267,15 @@ module.exports = {
     } else {
       return (value1 === value2);
     }
+  },
+
+  toString: function (object) {
+    var string = '';
+
+    for (var objectProperty in object) {
+      string += objectProperty + ' : ' + object[objectProperty] + '\n';
+    }
+
+    return string;
   }
 };

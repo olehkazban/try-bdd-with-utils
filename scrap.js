@@ -12,6 +12,7 @@ var testArray8 = [1, 2, 3, 4];
 var testArray10 = [4, 3, 1, 2];
 var testArray11 = [1, 3, 2, 4];
 var testArray12 = [1, 3, 2, 4];
+var testArray12 = [1.1, 4.5, 3.8, 3.1, 1.2, 1.3 , 4.6, 5.2, 1.22, 5.25];
 
 var testArray9 = [10, 2, -3, 40, -100, 5, 6];
 
@@ -134,6 +135,30 @@ var testObject4 = {
 //console.log(testArray8 + ' : ' + testArray11 + ' : ' + utils.deepEqual(testArray8, testArray11));
 //console.log(testArray11 + ' : ' + testArray12 + ' : ' + utils.deepEqual(testArray11, testArray12));
 
-console.log(testObject1 + ' : ' + testObject2 + ' : ' + utils.deepEqual(testObject1, testObject2));
-console.log(testObject1 + ' : ' + testObject3 + ' : ' + utils.deepEqual(testObject1, testObject3));
-console.log(testObject3 + ' : ' + testObject4 + ' : ' + utils.deepEqual(testObject3, testObject4));
+//console.log(testObject1 + ' : ' + testObject2 + ' : ' + utils.deepEqual(testObject1, testObject2));
+//console.log(testObject1 + ' : ' + testObject3 + ' : ' + utils.deepEqual(testObject1, testObject3));
+//console.log(testObject3.toString() + ' : ' + testObject4.toString() + ' : ' + utils.deepEqual(testObject3, testObject4));
+
+//console.log(utils.toString(testObject1));
+//console.log(utils.toString(testObject2));
+//console.log(utils.toString(testObject3));
+//console.log(utils.toString(testObject4));
+//
+//console.log(utils.toString(utils.map(testObject4, function (string) {
+//  string += '';
+//  return string.toUpperCase();
+//})));
+
+//console.log(utils.toString(utils.groupBy(testArray12, function(num) { return Math.floor(num)})));
+// var expectedObject = {
+//   1: [1.1, 1.2, 1.3, 1.22],
+//   3: [3.8, 3.1],
+//   4: [4.5, 4.6],
+//   5: [5.2, 5.25]
+// };
+//
+//console.log(utils.deepEqual(utils.groupBy(testArray12,  function(num) {
+//  return Math.floor(num);
+//}), expectedObject));
+
+console.log(utils.toString(utils.groupBy(testArray4, function(num) { return Math.floor(num)})));
