@@ -7,35 +7,22 @@ module.exports = {
    */
 
   sort: function (list, comparator) {
-    var condition;
+    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') { // we should ensure that input is an Array, not something else
 
-    if (comparator) {
-      condition = comparator(10, 20);
-    }
-
-    if (condition == undefined || condition >= 0) {
       for (var barrier = list.length - 1; barrier >= 0; barrier--) {
         for (var count = 0; count < barrier; count++) {
-          if (list[count] > list[count + 1]) {
+          if (comparator(list[barrier], list[count])) {
             var tmp = list[count];
-            list[count] = list[count + 1];
-            list[count + 1] = tmp;
+            list[count] = list[barrier];
+            list[barrier] = tmp;
           }
         }
       }
-    } else if (condition < 0) {
-      for (var barrier = 0; barrier < list.length; barrier++) {
-        for (var count = barrier; count >= 0; count--) {
-          if (list[count] < list[count + 1]) {
-            var tmp = list[count];
-            list[count] = list[count + 1];
-            list[count + 1] = tmp;
-          }
-        }
-      }
-    }
 
-    return list;
+      return list;
+    } else {
+      throw new Error('Incorrect input data format');
+    }
   },
 
   /**
@@ -45,11 +32,16 @@ module.exports = {
    */
 
   capitalize: function (string) {
-    string = string.toLowerCase();
-    string = string.replace(/^[a-z]/, function (m) {
-      return m.toUpperCase();
-    });
-    return string;
+    if (Object.prototype.toString.call(string).toUpperCase() === '[OBJECT STRING]') {
+      string = string.toLowerCase();
+      string = string.replace(/^[a-z]/, function (m) {
+        return m.toUpperCase();
+      });
+
+      return string;
+    } else {
+      throw new Error('Incorrect input data format');
+    }
   },
 
   /**
@@ -177,30 +169,64 @@ module.exports = {
     return;
   },
 
+  /**
+   * Utility function for equivalent comparing of objects and arrays.
+   * Accept an array or object and perform deep comparison of cells or values
+   * @param {Array | Object} array or object to be compared to
+   */
+
   deepEqual: function (value1, value2) {
 
-    if (typeof value1 === 'object' &&
-      typeof value2 === 'object' &&
+    if (
+      Object.prototype.toString.call(value1).toUpperCase() === '[OBJECT OBJECT]' &&
+      Object.prototype.toString.call(value2).toUpperCase() === '[OBJECT OBJECT]' &&
       value1 !== null &&
-      value2 !== null) {
+      value2 !== null
+    ) {
 
       if (Object.keys(value1).length !== Object.keys(value2).length) {
         return false;
       } else {
+        var flags = [];
+
         for (var key in value1) {
-          if (typeof value1[key] === 'object') {
-            return deepEqual(value1[key], value2[key]);
+          if (
+            Object.prototype.toString.call(value1[key]).toUpperCase() === '[OBJECT OBJECT]' &&
+            Object.prototype.toString.call(value2[key]).toUpperCase() === '[OBJECT OBJECT]'
+          ) {
+            return module.exports.deepEqual(value1[key], value2[key]);
           } else {
-            return (value1[key] === value2[key]);
+            flags.push(value1[key] === value2[key]);
           }
         }
-      }
 
+        if (flags.indexOf(false) >= 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    } else if (
+      Object.prototype.toString.call(value1).toUpperCase() === '[OBJECT ARRAY]' &&
+      Object.prototype.toString.call(value2).toUpperCase() === '[OBJECT ARRAY]'
+    ) {
+      if (value1.length != value2.length) {
+        return false;
+      } else {
+        var flags = [];
+
+        for (var count = 0; count < value1.length; count++) {
+          flags.push(value1[count] === value2[count]);
+        }
+
+        if (flags.indexOf(false) >= 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
     } else {
       return (value1 === value2);
     }
-
   }
-
-
 };

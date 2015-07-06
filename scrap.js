@@ -9,6 +9,11 @@ var testArray5 = [1];
 var testArray6 = [1, 2];
 var testArray7 = [1, 2, 3];
 var testArray8 = [1, 2, 3, 4];
+var testArray10 = [4, 3, 1, 2];
+var testArray11 = [1, 3, 2, 4];
+var testArray12 = [1, 3, 2, 4];
+
+var testArray9 = [10, 2, -3, 40, -100, 5, 6];
 
 var testString1 = 'just do it!';
 var testString2 = 'just   do  it!';
@@ -17,6 +22,23 @@ var spaceString1 = '   abdfrg ';
 var spaceString2 = 'abdfrg   ';
 var spaceString3 = '  abd frg   ';
 var spaceString4 = 'abd   frg';
+
+var testObject1 = {
+  userFirstName: 'Anna',
+  userAge: 27
+};
+var testObject2 = {
+  userFirstName: 'Maria',
+  userAge: 27
+};
+var testObject3 = {
+  userFirstName: 'Anna',
+  userAge: 25
+};
+var testObject4 = {
+  userFirstName: 'Anna',
+  userAge: 25
+};
 
 //var testObject1 = {
 //  firstName: 'FirstName',
@@ -38,31 +60,31 @@ var spaceString4 = 'abd   frg';
 //    return field.toUpperCase();
 //  }));
 
-function testMap(){
-  var testObject1 = {
-    firstName: 'SomeFirstName',
-    lastName: 'SomeLastName',
-    address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
-    age: 35,
-    phone: '+380677760670'
-  };
+//function testMap(){
+//  var testObject1 = {
+//    firstName: 'SomeFirstName',
+//    lastName: 'SomeLastName',
+//    address: 'Ukraine, Kharkiv, Novgorodska str, 3B',
+//    age: 35,
+//    phone: '+380677760670'
+//  };
+//
+//  var testObject2 = utils.map(testObject1, function(string){
+//    string += '';
+//    return string.toUpperCase(); });
+//
+//  printObject(testObject1);
+//  printObject(testObject2);
+//
+//};
 
-  var testObject2 = utils.map(testObject1, function(string){
-    string += '';
-    return string.toUpperCase(); });
+//testMap();
 
-  printObject(testObject1);
-  printObject(testObject2);
-
-};
-
-testMap();
-
-function printObject(object) {
-  for (var objectProperty in object) {
-    console.log(object[objectProperty]);
-  }
-};
+//function printObject(object) {
+//  for (var objectProperty in object) {
+//    console.log(object[objectProperty]);
+//  }
+//};
 
 //printObject(testObject1);
 
@@ -101,3 +123,17 @@ function printObject(object) {
 //console.log(Object.prototype.toString.call(testArray1).toUpperCase());
 //console.log(Object.prototype.toString.call(testString1).toUpperCase());
 //console.log(Object.prototype.toString.call(testObject1).toUpperCase());
+
+//console.log(testArray9 + ' : ' + utils.sort(testArray9, function(a, b) {return a < b}));
+//console.log(testArray9 + ' : ' + utils.sort(testArray9, function(a, b) {return a = b}));
+//console.log(testArray9 + ' : ' + utils.sort(testArray9, function(a, b) {return a > b}));
+
+//console.log(testString1 + ' : ' + testString2 + ' : ' + utils.deepEqual(testString1, testString2));
+//
+//console.log(testArray8 + ' : ' + testArray10 + ' : ' + utils.deepEqual(testArray8, testArray10));
+//console.log(testArray8 + ' : ' + testArray11 + ' : ' + utils.deepEqual(testArray8, testArray11));
+//console.log(testArray11 + ' : ' + testArray12 + ' : ' + utils.deepEqual(testArray11, testArray12));
+
+console.log(testObject1 + ' : ' + testObject2 + ' : ' + utils.deepEqual(testObject1, testObject2));
+console.log(testObject1 + ' : ' + testObject3 + ' : ' + utils.deepEqual(testObject1, testObject3));
+console.log(testObject3 + ' : ' + testObject4 + ' : ' + utils.deepEqual(testObject3, testObject4));
