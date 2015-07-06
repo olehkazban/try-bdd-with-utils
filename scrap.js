@@ -41,6 +41,21 @@ var testObject4 = {
   userAge: 25
 };
 
+var testObject5 = {
+  1: [1.1, 1.2, 1.3, 1.22],
+  3: [3.8, 3.1],
+  4: [4.5, 4.6],
+  5: [5.2, 5.25]
+};
+
+var expectedObject5 = {
+  1: [1.1, 1.2, 1.22, 1.3],
+  3: [3.1, 3.8],
+  4: [4.5, 4.6],
+  5: [5.2, 5.25]
+};
+
+
 //var testObject1 = {
 //  firstName: 'FirstName',
 //  lastName: 'LastName',
@@ -161,4 +176,6 @@ var testObject4 = {
 //  return Math.floor(num);
 //}), expectedObject));
 
-console.log(utils.toString(utils.groupBy(testArray4, function(num) { return Math.floor(num)})));
+//console.log(utils.toString(utils.groupBy(testArray4, function(num) { return Math.floor(num)})));
+console.log(utils.toString(utils.sort(testObject5, function(a, b) { return a < b; })));
+console.log(utils.deepEqual(utils.sort(testObject5, function(a, b) {return a < b; }), expectedObject5));

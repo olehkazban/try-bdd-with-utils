@@ -239,13 +239,15 @@ describe('Utils', function () {
       var testArray = [1.1, 4.5, 3.8, 3.1, 1.2, 1.3, 4.6, 5.2, 1.22, 5.25];
       var expectedObject = {
         1: [1.1, 1.2, 1.22, 1.3],
-        3: [3.1, 3.2],
+        3: [3.1, 3.8],
         4: [4.5, 4.6],
         5: [5.2, 5.25]
       };
 
-      expect(utils.deepEqual(utils.groupBy(testArray, function (num) {
+      expect(utils.deepEqual(utils.sort(utils.groupBy(testArray, function (num) {
         return Math.floor(num);
+      }), function (a, b) {
+        return a < b;
       }), expectedObject)).to.equal(true);
     });
 

@@ -2,7 +2,7 @@ module.exports = {
 
   /**
    * Sort given array by provided rule in comparator function
-   * @param {Array} list
+   * @param {Array|Object[]} list
    * @param {Function} comparator
    */
 
@@ -16,6 +16,15 @@ module.exports = {
             list[count] = list[barrier];
             list[barrier] = tmp;
           }
+        }
+      }
+
+      return list;
+    } else if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT OBJECT]') {
+
+      for (var property in list) {
+        if (list.hasOwnProperty(property) && Object.prototype.toString.call(list[property]).toUpperCase() === '[OBJECT ARRAY]') {
+          list[property] = module.exports.sort(list[property], comparator);
         }
       }
 
