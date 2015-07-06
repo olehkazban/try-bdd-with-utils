@@ -51,30 +51,37 @@ module.exports = {
    */
 
   camelize: function (sequence) {
-    var string = '';
+    if (
+      Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]' ||
+      Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]'
+    ) {
+      var string = '';
 
-    if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]') {
-      for (var counter = 0; counter < sequence.length; counter++) {
-        if ((typeof sequence[counter]) === 'object') {
-          var subSequence = sequence[counter];
-          string += module.exports.camelize(subSequence);
-        } else if (/\s/.test(sequence[counter])) {
-          var subSequence = sequence[counter].split(' ');
-          string += module.exports.camelize(subSequence);
-        } else {
-          sequence[counter] = sequence[counter].replace(/\W/, ''); // removing spec chars
-          sequence[counter] = sequence[counter].replace(/[0-9]]/); // removing digits
+      if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]') {
+        for (var counter = 0; counter < sequence.length; counter++) {
+          if ((typeof sequence[counter]) === 'object') {
+            var subSequence = sequence[counter];
+            string += module.exports.camelize(subSequence);
+          } else if (/\s/.test(sequence[counter])) {
+            var subSequence = sequence[counter].split(' ');
+            string += module.exports.camelize(subSequence);
+          } else {
+            sequence[counter] = sequence[counter].replace(/\W/, ''); // removing spec chars
+            sequence[counter] = sequence[counter].replace(/[0-9]]/); // removing digits
 
-          string += module.exports.capitalize(sequence[counter]);
+            string += module.exports.capitalize(sequence[counter]);
+          }
         }
       }
-    }
-    else if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]') {
-      var subSequence = sequence.split(' ');
-      string += module.exports.camelize(subSequence);
-    }
+      else if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]') {
+        var subSequence = sequence.split(' ');
+        string += module.exports.camelize(subSequence);
+      }
 
-    return string;
+      return string;
+    } else {
+      throw new Error('Incorrect input data format');
+    }
   },
 
   /**
@@ -84,8 +91,13 @@ module.exports = {
    */
 
   trim: function (string) {
-    string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
-    return string;
+    if (Object.prototype.toString.call(string).toUpperCase() === '[OBJECT STRING]') {
+      string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
+
+      return string;
+    } else {
+      throw new Error('Incorrect input data format');
+    }
   },
 
   /**
@@ -96,13 +108,17 @@ module.exports = {
 
   reverse: function (list) {
 
-    for (var count = 0; count < list.length / 2; count++) {
-      var tmp = list[count];
-      list[count] = list[list.length - 1 - count];
-      list[list.length - 1 - count] = tmp;
-    }
+    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+      for (var count = 0; count < list.length / 2; count++) {
+        var tmp = list[count];
+        list[count] = list[list.length - 1 - count];
+        list[list.length - 1 - count] = tmp;
+      }
 
-    return list;
+      return list;
+    } else {
+      throw new Error('Incorrect input data format');
+    }
   },
 
   /**

@@ -42,107 +42,122 @@ describe('Utils', function () {
   });
 
   describe('#camelize()', function () {
-    it('should camelize given string', function () {
+    it('Should camelize given string and pass', function () {
       expect(utils.camelize('just do it!')).to.equal('JustDoIt');
     });
-  });
 
-  describe('#camelize()', function () {
-    it('should camelize given string', function () {
+    it('Should camelize given string and pass', function () {
       expect(utils.camelize('just   do  it!')).to.equal('JustDoIt');
     });
-  });
 
-  describe('#camelize()', function () {
-    it('should camelize given array of string', function () {
+    it('Should camelize given array of string and pass', function () {
       expect(utils.camelize(['just', 'do', 'it!'])).to.equal('JustDoIt');
     });
-  });
 
-  describe('#camelize()', function () {
-    it('should camelize given array of string', function () {
+    it('Should camelize given array of string and pass', function () {
       expect(utils.camelize(['just try to', 'do', 'it!'])).to.equal('JustTryToDoIt');
     });
-  });
 
-  describe('#camelize()', function () {
-    it('should camelize given array of string', function () {
+    it('Should camelize given array of string and pass', function () {
       expect(utils.camelize([['just try to', 'do', 'it!'], 'do', 'it!'])).to.equal('JustTryToDoItDoIt');
     });
-  });
 
-  describe('#camelize()', function () {
-    it('should camelize given array of string', function () {
+    it('Should camelize given array of string and pass', function () {
       expect(utils.camelize([['just   try  to', 'do', 'it!'], 'do', 'it!'])).to.equal('JustTryToDoItDoIt');
     });
+
+    it('Should fail when input data is not String or Array of Strings', function () {
+      expect(function () {
+        var testObject = {
+          string: 'try to test me :)'
+        };
+
+        utils.camelize(testObject)
+      }).to.throwError('Incorrect input data format');
+    });
   });
 
   describe('#trim()', function () {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function () {
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
       expect(utils.trim('just try to do it!')).to.equal('just try to do it!');
     });
-  });
 
-  describe('#trim()', function () {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function () {
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
       expect(utils.trim('   just try to do it!')).to.equal('just try to do it!');
     });
-  });
 
-  describe('#trim()', function () {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function () {
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
       expect(utils.trim('just try to do it!     ')).to.equal('just try to do it!');
     });
-  });
 
-  describe('#trim()', function () {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function () {
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
+      expect(utils.trim('just try to do it!     ')).to.equal('just try to do it!');
+    });
+
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
       expect(utils.trim(' just try to do it!     ')).to.equal('just try to do it!');
     });
-  });
 
-  describe('#trim()', function () {
-    it('should cut of any count of spaces from the beginning and from the end of the string', function () {
+    it('Should cut of any count of spaces from the beginning and from the end of the string', function () {
       expect(utils.trim(' just   try  to do it!     ')).to.equal('just   try  to do it!');
     });
+
+    it('Should fail when input is not equal the string', function () {
+      expect(function () {
+        utils.trim([0, 1, 2, 3])
+      }).to.throwError('Incorrect input data format');
+    })
   });
 
   describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
-      expect(utils.reverse([]).join()).to.equal([].join());
+    it('Should reverses a specified list', function () {
+      var testArray = [];
+
+      expect(utils.deepEqual(utils.reverse(testArray), [])).to.equal(true);
     });
-  });
 
-  describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
-      expect(utils.reverse([0]).join()).to.equal([0].join());
+    it('Should reverses a specified list', function () {
+      var testArray = [0];
+
+      expect(utils.deepEqual(utils.reverse(testArray), [0])).to.equal(true);
     });
-  });
 
-  describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
-      expect(utils.reverse([0, 1]).join()).to.equal([1, 0].join());
+    it('Should reverses a specified list', function () {
+      var testArray = [0, 1];
+
+      expect(utils.deepEqual(utils.reverse(testArray), [1, 0])).to.equal(true);
     });
-  });
 
-  describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
-      expect(utils.reverse([0, 1, 2]).join()).to.equal([2, 1, 0].join());
+    it('Should reverses a specified list', function () {
+      var testArray = [0, 1, 2];
+
+      expect(utils.deepEqual(utils.reverse(testArray), [2, 1, 0])).to.equal(true);
     });
-  });
 
-  describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
-      expect(utils.reverse([0, 1, 2, 3]).join()).to.equal([3, 2, 1, 0].join());
+    it('Should reverses a specified list', function () {
+      var testArray = [0, 1, 2, 3];
+
+      expect(utils.deepEqual(utils.reverse(testArray), [3, 2, 1, 0])).to.equal(true);
     });
-  });
 
-  describe('#reverse()', function () {
-    it('should reverses a specified list', function () {
+    it('Should reverses a specified list and return the same instance', function () {
       var testArray = [0, 1, 2, 3];
       var reversedArray = utils.reverse(testArray);
 
       expect(utils.reverse(testArray)).to.equal(reversedArray);
+    });
+
+    it('Should fail if return other instance of array', function () {
+      var testArray1 = [0, 1, 2, 3];
+      var testArray2 = [0, 1, 2, 3];
+
+      expect(utils.reverse(testArray1) === utils.reverse(testArray2)).to.equal(false);
+    });
+
+    it('Should fail if input is not Array', function() {
+      expect(function() {
+        utils.reverse('try to test me :)')
+      }).to.throwError('Incorrect input data format');
     });
   });
 
