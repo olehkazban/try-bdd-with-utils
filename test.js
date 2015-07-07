@@ -578,19 +578,4 @@ describe('Utils', function () {
     });
   });
 
-  //describe('#groupBy()', function() {
-  //  it('should group some input sequence of element by some rule', function() {
-  //  });
-  //});
-  //
-  //describe('#once()', function() {
-  //  it('should create a version of the function that can only be called one time', function() {
-  //  });
-  //});
-  //
-  //describe('#debounce()', function() {
-  //  it('should create and return a new debounced version of the passed function', function() {
-  //  });
-  //});
-
 });
