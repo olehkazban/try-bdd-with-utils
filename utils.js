@@ -222,7 +222,20 @@ module.exports = {
    */
 
   debounce: function (func, wait) {
-    return;
+    function setTimeout(miliseconds) {
+      var date = new Date();
+      var currentDate;
+
+      do {
+        currentDate = new Date();
+      }
+
+      while (currentDate - date < miliseconds);
+    }
+
+    setTimeout(wait);
+
+    return func.apply(this, arguments);
   },
 
   /**

@@ -177,5 +177,38 @@ var expectedObject5 = {
 //}), expectedObject));
 
 //console.log(utils.toString(utils.groupBy(testArray4, function(num) { return Math.floor(num)})));
-console.log(utils.toString(utils.sort(testObject5, function(a, b) { return a < b; })));
-console.log(utils.deepEqual(utils.sort(testObject5, function(a, b) {return a < b; }), expectedObject5));
+//console.log(utils.toString(utils.sort(testObject5, function(a, b) { return a < b; })));
+//console.log(utils.deepEqual(utils.sort(testObject5, function(a, b) {return a < b; }), expectedObject5));
+
+//var testVar = 'try to test me :)';
+//
+//var testFunc1 = utils.once(function(){ return testVar.toUpperCase()});
+//var testFunc2 = utils.once(function(){ return testVar.toUpperCase()});
+
+var delay = 1000;
+var testVar = 'try to test me :)';
+var delayMsg = 'waiting';
+
+var checkDelay = function(delay) {
+  var date = new Date();
+  utils.debounce(function(){
+    return testVar.toUpperCase();
+  }, delay);
+  var currentDate = new Date();
+
+  return ((currentDate - date) <= delay)
+};
+
+//for (var count = 0; count < 1000; count++) {
+//  setTimeout(function() { console.log('waiting') }, 10);
+//
+//  console.log(utils.debounce(function() {
+//    return testVar.toUpperCase();
+//  }, delay));
+//}
+
+//console.log(utils.debounce(function() {
+//  return testVar.toUpperCase();
+//}, delay));
+
+console.log(checkDelay(delay));

@@ -260,14 +260,51 @@ describe('Utils', function () {
     });
   });
 
-  describe('#once()', function() {
-    it('Should return the same instance of function', function() {
+  describe('#once()', function () {
+    it('Should return the same instance of function', function () {
       var testVar = 'try to test me :)';
 
-      var testFunc1 = utils.once(function(){ return testVar.toUpperCase()});
-      var testFunc2 = utils.once(function(){ return testVar.toUpperCase()});
+      var testFunc1 = utils.once(function () {
+        return testVar.toUpperCase()
+      });
+      var testFunc2 = utils.once(function () {
+        return testVar.toUpperCase()
+      });
 
       expect(testFunc1).to.equal(testFunc2);
+    });
+  });
+
+  describe('#debounce()', function () {
+    it('Should return expected result', function () {
+      var delay = 1000;
+      var testVar = 'try to test me :)';
+
+      expect(
+        utils.debounce(function () {
+          return testVar.toUpperCase()
+        }, delay)
+      ).to.equal('TRY TO TEST ME :)');
+    });
+
+    it('Should run after wait', function () {
+      var delay = 1000;
+      var testVar = 'try to test me :)';
+
+      var date;
+      var currentDate;
+
+      var test = function () {
+        date = new Date();
+        utils.debounce(function () {
+          return testVar.toUpperCase();
+        }, delay);
+        currentDate = new Date();
+
+        return ((currentDate - date) <= delay);
+      };
+
+      expect(test()).to.equal(true);
     });
   });
 
