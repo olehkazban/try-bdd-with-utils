@@ -16,12 +16,47 @@ describe('Utils', function () {
       }), [3, 2, 1, 0])).to.equal(true);
     });
 
-    it('We expect that we accept an Array, but not string', function () {
+    it('Should throw an Error if input is not an Array', function () {
       expect(function () {
         utils.sort('test me if you can :)', function (a, b) {
           return a < b;
         })
       }).to.throwError('Incorrect input data format');
+    });
+
+    it('Should return an Array, if we call with Array in arguments', function () {
+      var testArray = [0, 1, 2, 3];
+
+      expect(utils.sort(testArray, function (a, b) {
+        return a < b;
+      })).to.be.a('array')
+    });
+
+    it('Should return an Object, if we call with Object in arguments', function () {
+      var testObject = {
+        1: [3, 1, 6],
+        2: [1, 2, 3],
+        3: [],
+        4: [4, 0, 1]
+      };
+
+      expect(utils.sort(testObject, function (a, b) {
+        return a < b;
+      })).to.be.a('object')
+    });
+
+    it('Should not return a String', function () {
+      var testArray = [1, 2, 3];
+
+      expect(utils.sort(testArray, function (a, b) {
+        return a < b;
+      })).to.not.be('string');
+    });
+
+    it('Should return the same list instead of new instance',  function() {
+      var testArray = [1, 2, 3];
+
+      expect(utils.sort(testArray,  function(a, b) { return a < b; })).to.be.equal(testArray);
     });
   });
 
@@ -34,10 +69,28 @@ describe('Utils', function () {
       expect(utils.capitalize('JUST DO IT!')).to.equal('Just do it!');
     });
 
-    it('We expect that we accept an string, but not something else', function () {
+    it('Should throw an Error when input is not a String', function () {
       expect(function () {
         utils.capitalize(['a', 'b', 'c'])
       }).to.throwError('Incorrect input data format');
+    });
+
+    it('Should return a String', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.capitalize(testString)).to.be.a('string');
+    });
+
+    it('Should not return an Array', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.capitalize(testString)).to.not.be.a('array');
+    });
+
+    it('Should not return an Object', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.capitalize(testString)).to.not.be.a('object');
     });
   });
 
@@ -66,7 +119,7 @@ describe('Utils', function () {
       expect(utils.camelize([['just   try  to', 'do', 'it!'], 'do', 'it!'])).to.equal('JustTryToDoItDoIt');
     });
 
-    it('Should fail when input data is not String or Array of Strings', function () {
+    it('Should throw an Error when input data is not String or Array of Strings', function () {
       expect(function () {
         var testObject = {
           string: 'try to test me :)'
@@ -74,6 +127,28 @@ describe('Utils', function () {
 
         utils.camelize(testObject)
       }).to.throwError('Incorrect input data format');
+    });
+
+    it('Should return a string if input is String', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.camelize(testString)).to.be.a('string');
+    });
+
+    it('Should return a string if input is Array of Strings', function () {
+      var testArray = [
+        'try',
+        'to test',
+        'me :)))'
+      ];
+
+      expect(utils.camelize(testArray)).to.be.a('string');
+    });
+
+    it('Should not return an Object', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.camelize(testString)).to.not.be.a('object')
     });
   });
 
@@ -102,11 +177,28 @@ describe('Utils', function () {
       expect(utils.trim(' just   try  to do it!     ')).to.equal('just   try  to do it!');
     });
 
-    it('Should fail when input is not equal the string', function () {
+    it('Should throw an Error when input is not equal the string', function () {
       expect(function () {
         utils.trim([0, 1, 2, 3])
       }).to.throwError('Incorrect input data format');
     })
+
+    it('Should return a String', function () {
+      var testString = '    try to  test   me     :) ))   ';
+      expect(utils.trim(testString)).to.be.a('string');
+    });
+
+    it('Should not return an Array', function () {
+      var testString = '   try to test   me: ))';
+
+      expect(utils.trim(testString)).to.not.be.a('array');
+    });
+
+    it('Should not return an Object', function () {
+      var testString = '   try to test   me: ))';
+
+      expect(utils.trim(testString)).to.not.be.a('object');
+    });
   });
 
   describe('#reverse()', function () {
@@ -140,6 +232,12 @@ describe('Utils', function () {
       expect(utils.deepEqual(utils.reverse(testArray), [3, 2, 1, 0])).to.equal(true);
     });
 
+    it('Should reverses a specified list with expected length', function () {
+      var testArray = [0, 1, 2, 3, 4];
+
+      expect(utils.reverse(testArray)).to.have.length(5);
+    });
+
     it('Should reverses a specified list and return the same instance', function () {
       var testArray = [0, 1, 2, 3];
       var reversedArray = utils.reverse(testArray);
@@ -147,17 +245,35 @@ describe('Utils', function () {
       expect(utils.reverse(testArray)).to.equal(reversedArray);
     });
 
-    it('Should fail if return other instance of array', function () {
+    it('Should throw an Error if return other instance of array', function () {
       var testArray1 = [0, 1, 2, 3];
       var testArray2 = [0, 1, 2, 3];
 
       expect(utils.reverse(testArray1) === utils.reverse(testArray2)).to.equal(false);
     });
 
-    it('Should fail if input is not Array', function () {
+    it('Should throw an Error if input is not Array', function () {
       expect(function () {
         utils.reverse('try to test me :)')
       }).to.throwError('Incorrect input data format');
+    });
+
+    it('Should not return an String', function () {
+      var testArray = [1, 2, 3];
+
+      expect(utils.reverse(testArray)).to.not.be.a('string')
+    });
+
+    it('Should return an Array', function () {
+      var testArray = [1, 2, 3];
+
+      expect(utils.reverse(testArray)).to.be.a('array')
+    });
+
+    it('Should return the same instance instead of new one', function () {
+      var testArray = [0, 1, 2, 3];
+
+      expect(utils.reverse(testArray)).to.be.equal(testArray);
     });
   });
 
@@ -191,12 +307,43 @@ describe('Utils', function () {
       }), equalObject)).to.equal(true);
     });
 
-    it('Should fail if input is not an Array or Object', function () {
+    it('Should throw an Error if input is not an Array or Object', function () {
       expect(function () {
         utils.map('try to test me :)', function () {
           return true
         })
       }).to.throwError('Incorrect input data format');
+    });
+
+    it('Should return an modified Array if input is Array', function () {
+      var testArray = [0, 1, 2, 3, 4];
+      var map = utils.map(testArray, function (num) {
+        return ++num;
+      });
+
+      expect(map).to.be.a('array');
+    });
+
+    it('Should return an modified Object if input is Object', function () {
+      var testObject = {
+        name: 'name',
+        lastName: 'lastname'
+      };
+
+      var map = utils.map(testObject, function (string) {
+        return string.toUpperCase();
+      });
+
+      expect(map).to.be.a('object');
+    });
+
+    it('Should return new instance of list instead of modified one', function () {
+      var testArray = [0, 1, 2, 3, 4];
+      var map = utils.map(testArray, function (num) {
+        return ++num;
+      });
+
+      expect(map).to.not.be.equal(testArray);
     });
   });
 
@@ -251,27 +398,46 @@ describe('Utils', function () {
       }), expectedObject)).to.equal(true);
     });
 
-    it('Should fail if input is not an Array', function () {
+    it('Should throw an Error if input is not an Array', function () {
       expect(function () {
         utils.groupBy('try to input me :)', function () {
           return true;
         });
       }).to.throwError('Incorrect input data format');
     });
+
+    it('Should return an Object', function () {
+      var testArray = [1.25, 2.5, 4.58, 7.89, 5.2, 1.34, 0.38, 1.25, 2.98, 7.65];
+      var groupBy = utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      });
+
+      expect(groupBy).to.be.a('object');
+    });
+
+    it('Should not return an String', function () {
+      var testArray = [1.25, 2.5, 4.58, 7.89, 5.2, 1.34, 0.38, 1.25, 2.98, 7.65];
+      var groupBy = utils.groupBy(testArray, function (num) {
+        return Math.floor(num);
+      });
+
+      expect(groupBy).to.not.be.a('string');
+    });
   });
 
   describe('#once()', function () {
-    it('Should return the same instance of function', function () {
-      var testVar = 'try to test me :)';
+    it('Function should run only once', function () {
+      var testCounter = 0;
 
-      var testFunc1 = utils.once(function () {
-        return testVar.toUpperCase()
-      });
-      var testFunc2 = utils.once(function () {
-        return testVar.toUpperCase()
+      var testFunc = utils.once(function () {
+        ++testCounter;
       });
 
-      expect(testFunc1).to.equal(testFunc2);
+      for (var count = 0; count < 100; count++) {
+        testFunc();
+      }
+
+      expect(testCounter).to.equal(1);
     });
   });
 
@@ -305,6 +471,21 @@ describe('Utils', function () {
       };
 
       expect(test()).to.equal(true);
+    });
+
+    it('Should run not less an delay', function () {
+      var delay = 500;
+      var testString = 'try to test me:)';
+
+      var start = new Date();
+      utils.debounce(function () {
+        return testString.toUpperCase();
+      }, delay);
+      var finish = new Date();
+
+      var duration = parseInt(finish - start);
+
+      expect(duration).to.be.equal(delay);
     });
   });
 

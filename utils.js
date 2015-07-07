@@ -196,20 +196,15 @@ module.exports = {
    */
 
   once: function (func) {
+    var executed = false;
 
-    var instance;
+    return function() {
+      if (!executed) {
+        executed = true;
 
-    function createInstance() {
-
-      if (func) {
-        instance = func.apply(this, arguments);
-        func = null;
+        return func.apply(this, arguments);
       }
-
-      return instance;
-    }
-
-    return createInstance();
+    };
   },
 
   /**
