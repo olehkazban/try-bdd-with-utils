@@ -7,7 +7,7 @@ module.exports = {
    */
 
   sort: function (list, comparator) {
-    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') { // we should ensure that input is an Array, not something else
+    if (module.exports.inputType(list) === 'array') { // we should ensure that input is an Array, not something else
 
       for (var barrier = list.length - 1; barrier >= 0; barrier--) {
         for (var count = 0; count < barrier; count++) {
@@ -20,10 +20,9 @@ module.exports = {
       }
 
       return list;
-    } else if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT OBJECT]') {
-
+    } else if (module.exports.inputType(list) === 'object') {
       for (var property in list) {
-        if (list.hasOwnProperty(property) && Object.prototype.toString.call(list[property]).toUpperCase() === '[OBJECT ARRAY]') {
+        if (list.hasOwnProperty(property) && module.exports.inputType(list[property]) === 'array') {
           list[property] = module.exports.sort(list[property], comparator);
         }
       }
@@ -41,7 +40,7 @@ module.exports = {
    */
 
   capitalize: function (string) {
-    if (Object.prototype.toString.call(string).toUpperCase() === '[OBJECT STRING]') {
+    if (module.exports.inputType(string) === 'string') {
       string = string.toLowerCase();
       string = string.replace(/^[a-z]/, function (m) {
         return m.toUpperCase();
@@ -61,12 +60,12 @@ module.exports = {
 
   camelize: function (sequence) {
     if (
-      Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]' ||
-      Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]'
+    module.exports.inputType(sequence) === 'array' ||
+    module.exports.inputType(sequence) === 'string'
     ) {
       var string = '';
 
-      if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT ARRAY]') {
+      if (module.exports.inputType(sequence) === 'array') {
         for (var counter = 0; counter < sequence.length; counter++) {
           if ((typeof sequence[counter]) === 'object') {
             var subSequence = sequence[counter];
@@ -82,7 +81,7 @@ module.exports = {
           }
         }
       }
-      else if (Object.prototype.toString.call(sequence).toUpperCase() === '[OBJECT STRING]') {
+      else if (module.exports.inputType(sequence) === 'string') {
         var subSequence = sequence.split(' ');
         string += module.exports.camelize(subSequence);
       }
@@ -100,7 +99,7 @@ module.exports = {
    */
 
   trim: function (string) {
-    if (Object.prototype.toString.call(string).toUpperCase() === '[OBJECT STRING]') {
+    if (module.exports.inputType(string) === 'string') {
       string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
 
       return string;
@@ -117,7 +116,7 @@ module.exports = {
 
   reverse: function (list) {
 
-    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+    if (module.exports.inputType(list) === 'array') {
       for (var count = 0; count < list.length / 2; count++) {
         var tmp = list[count];
         list[count] = list[list.length - 1 - count];
@@ -139,7 +138,7 @@ module.exports = {
 
   map: function (list, iterator) {
 
-    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT OBJECT]') {
+    if (module.exports.inputType(list) === 'object') {
       var newObject = {};
 
       for (var listProperty in list) {
@@ -149,7 +148,7 @@ module.exports = {
       }
 
       return newObject;
-    } else if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+    } else if (module.exports.inputType(list) === 'array') {
       var newList = [];
 
       for (var count = 0; count < list.length; count++) {
@@ -170,7 +169,7 @@ module.exports = {
    */
 
   groupBy: function (list, iterator) {
-    if (Object.prototype.toString.call(list).toUpperCase() === '[OBJECT ARRAY]') {
+    if (module.exports.inputType(list) === 'array') {
       var object = {};
 
       for (var count = 0; count < list.length; count++) {
@@ -198,7 +197,7 @@ module.exports = {
   once: function (func) {
     var executed = false;
 
-    return function() {
+    return function () {
       if (!executed) {
         executed = true;
 
@@ -217,20 +216,12 @@ module.exports = {
    */
 
   debounce: function (func, wait) {
-    function setTimeout(miliseconds) {
-      var date = new Date();
-      var currentDate;
 
-      do {
-        currentDate = new Date();
-      }
+    var result = setTimeout(function(){
+      func.apply(this, arguments);
+    }, wait);
 
-      while (currentDate - date < miliseconds);
-    }
-
-    setTimeout(wait);
-
-    return func.apply(this, arguments);
+    return result;
   },
 
   /**
@@ -241,11 +232,8 @@ module.exports = {
 
   deepEqual: function (value1, value2) {
 
-    if (
-      Object.prototype.toString.call(value1).toUpperCase() === '[OBJECT OBJECT]' &&
-      Object.prototype.toString.call(value2).toUpperCase() === '[OBJECT OBJECT]' &&
-      value1 !== null &&
-      value2 !== null
+    if (module.exports.inputType(value1) === 'object' &&
+        module.exports.inputType(value2) === 'object'
     ) {
 
       if (Object.keys(value1).length !== Object.keys(value2).length) {
@@ -255,13 +243,13 @@ module.exports = {
 
         for (var key in value1) {
           if (
-            Object.prototype.toString.call(value1[key]).toUpperCase() === '[OBJECT OBJECT]' &&
-            Object.prototype.toString.call(value2[key]).toUpperCase() === '[OBJECT OBJECT]'
+            module.exports.inputType(value1[key]) === 'object' &&
+            module.exports.inputType(value2[key]) === 'object'
           ) {
             return module.exports.deepEqual(value1[key], value2[key]);
           } else if (
-            Object.prototype.toString.call(value1[key]).toUpperCase() === '[OBJECT ARRAY]' &&
-            Object.prototype.toString.call(value2[key]).toUpperCase() === '[OBJECT ARRAY]'
+            module.exports.inputType(value1[key]) === 'array' &&
+            module.exports.inputType(value2[key]) === 'array'
           ) {
             return module.exports.deepEqual(value1[key], value2[key]);
           } else {
@@ -276,8 +264,8 @@ module.exports = {
         }
       }
     } else if (
-      Object.prototype.toString.call(value1).toUpperCase() === '[OBJECT ARRAY]' &&
-      Object.prototype.toString.call(value2).toUpperCase() === '[OBJECT ARRAY]'
+      module.exports.inputType(value1) === 'array' &&
+      module.exports.inputType(value2) === 'array'
     ) {
       if (value1.length != value2.length) {
         return false;
@@ -285,7 +273,19 @@ module.exports = {
         var flags = [];
 
         for (var count = 0; count < value1.length; count++) {
-          flags.push(value1[count] === value2[count]);
+          if (
+            module.exports.inputType(value1[count]) === 'object' &&
+            module.exports.inputType(value2[count]) === 'object'
+          ) {
+            return module.exports.deepEqual(value1[count], value2[count]);
+          } else if (
+            module.exports.inputType(value1[count]) === 'array' &&
+            module.exports.inputType(value2[count]) === 'array'
+          ) {
+            return module.exports.deepEqual(value1[count], value2[count]);
+          } else {
+            flags.push(value1[count] === value2[count]);
+          }
         }
 
         if (flags.indexOf(false) >= 0) {
@@ -300,18 +300,68 @@ module.exports = {
   },
 
   /**
-   * Utility function for coverting Object to String.
-   * Accept an Object and convert it as key : value string.
-   * @param {Array | Object} array or object to be compared to
+   * Utility function for converting Object to String.
+   * Accept an Object and convert it as key : value string, or accept an array
+   * and convert it as cell #: value.
+   * @param {Array | Object} array or object to be parsed
+   * @return (String) returns complex String of keys and values.
    */
 
   toString: function (object) {
     var string = '';
 
-    for (var objectProperty in object) {
-      string += objectProperty + ' : ' + object[objectProperty] + '\n';
+    if (module.exports.inputType(object) === 'array') {
+      for (var count = 0; count < object.length; count++) {
+        if (module.exports.inputType(object[count]) === 'array' ||
+          module.exports.inputType(object[count]) === 'object') {
+          string += 'cell #' + count + '\t: \n' + module.exports.toString(object[count]);
+        } else {
+          string += 'cell #' + count + '\t: ' + object[count];
+        }
+        if (count !== object.length - 1) {
+          string += '\n';
+        }
+      }
+    } else if (module.exports.inputType(object) === 'object') {
+      for (var objectProperty in object) {
+        if (module.exports.inputType(object[objectProperty]) === 'object' ||
+          module.exports.inputType(object[objectProperty]) === 'array') {
+          string += objectProperty + '\t: \n' + module.exports.toString(object[objectProperty]) + '\n';
+        } else {
+          string += objectProperty + ' : ' + object[objectProperty] + '\n';
+        }
+      }
+    } else if (module.exports.inputType(object) === 'string') {
+      string += object;
+    }
+    else {
+      throw new Error('Invalid input');
     }
 
     return string;
+  },
+
+  /**
+   * Utility function to determine of input type of object
+   * @param {Array | Object | String | Number | Boolean | null | undefined} Accept any type of object
+   * @return {String} null: if input is null
+   * @return {String} undefined: if input is undefined
+   * @return {String} number: if input is integer or float (number)
+   * @return {String} string: if input is string
+   * @return {String} boolean: if input is boolean
+   * @return {String} array: if input is array
+   * @return {String} object: if input is object
+   */
+  inputType: function (input) {
+    if (module.exports.inputType.arguments.length > 0) {
+      var result = Object.prototype.toString.call(input).toUpperCase();
+
+      result = result.substring(1, result.length - 1);
+      result = result.replace(/^OBJECT\s/, '').toLowerCase();
+
+      return result;
+    } else {
+      throw new Error('Empty input!');
+    }
   }
 };

@@ -1,5 +1,6 @@
 var utils = require('./utils'),
-  expect = require('expect.js');
+  expect = require('expect.js'),
+  sinon = require('sinon');
 
 describe('Utils', function () {
 
@@ -53,10 +54,12 @@ describe('Utils', function () {
       })).to.not.be('string');
     });
 
-    it('Should return the same list instead of new instance',  function() {
+    it('Should return the same list instead of new instance', function () {
       var testArray = [1, 2, 3];
 
-      expect(utils.sort(testArray,  function(a, b) { return a < b; })).to.be.equal(testArray);
+      expect(utils.sort(testArray, function (a, b) {
+        return a < b;
+      })).to.be.equal(testArray);
     });
   });
 
@@ -426,9 +429,21 @@ describe('Utils', function () {
   });
 
   describe('#once()', function () {
+    it('Should return according result', function () {
+      var testString = 'try to test me :)';
+      var testFunc = utils.once(function () {
+        testString = testString.toUpperCase();
+      });
+
+      for (var count = 0; count < 100; count++) {
+        testFunc();
+      }
+
+      expect(testString).to.equal('TRY TO TEST ME :)');
+    });
+
     it('Function should run only once', function () {
       var testCounter = 0;
-
       var testFunc = utils.once(function () {
         ++testCounter;
       });
@@ -439,54 +454,100 @@ describe('Utils', function () {
 
       expect(testCounter).to.equal(1);
     });
+
+    it('Should run only once with spy', function() {
+      var spy = sinon.spy();
+      var testFunc = utils.once(function(){spy;});
+
+      for (var count = 0; count < 100; count++) {
+        testFunc();
+      }
+
+      expect(spy).to.be.calledOnce;
+    });
+
+    it('Should not be called without call - with spy', function() {
+      var spy = sinon.spy();
+      var testFunc = utils.once(function(){spy;});
+
+      expect(spy).to.not.be.called;
+    });
   });
 
   describe('#debounce()', function () {
-    it('Should return expected result', function () {
-      var delay = 1000;
-      var testVar = 'try to test me :)';
-
-      expect(
-        utils.debounce(function () {
-          return testVar.toUpperCase()
-        }, delay)
-      ).to.equal('TRY TO TEST ME :)');
+    before(function () {
+      this.clock = sinon.useFakeTimers();
     });
 
-    it('Should run after wait', function () {
-      var delay = 1000;
-      var testVar = 'try to test me :)';
+    after(function () {
+      this.clock.restore();
+    });
 
-      var date;
-      var currentDate;
+    it('Should use fake timer from SinonJS and pass', function () {
 
-      var test = function () {
-        date = new Date();
+      var counter = 0;
+
+      var debounceCall = function () {
         utils.debounce(function () {
-          return testVar.toUpperCase();
-        }, delay);
-        currentDate = new Date();
-
-        return ((currentDate - date) <= delay);
+          ++counter;
+        }, 500);
       };
 
-      expect(test()).to.equal(true);
+      debounceCall();
+      this.clock.tick(500);
+
+      expect(counter).to.equal(1);
     });
 
-    it('Should run not less an delay', function () {
-      var delay = 500;
-      var testString = 'try to test me:)';
+    it('Should be called with using of fake timers and spies', function () {
+      var spy = sinon.spy();
+      var counter = 0;
+      var debounceCall = {
+        start: function () {
+          utils.debounce(function () {
+            ++counter;
+          }, 500);
+        }
+      }
 
-      var start = new Date();
-      utils.debounce(function () {
-        return testString.toUpperCase();
-      }, delay);
-      var finish = new Date();
+      debounceCall.start(spy);
+      this.clock.tick(500);
 
-      var duration = parseInt(finish - start);
-
-      expect(duration).to.be.equal(delay);
+      expect(spy).to.be.called;
     });
+
+    it('Should be called once with using of fake timers and spies', function () {
+      var spy = sinon.spy();
+      var counter = 0;
+      var debounceCall = {
+        start: function () {
+          utils.debounce(function () {
+            ++counter;
+          }, 500);
+        }
+      }
+
+      debounceCall.start(spy);
+      this.clock.tick(500);
+
+      expect(spy).to.be.calledOnce;
+    });
+
+    it('Should be called in expected time with using of fake timers and spies', function () {
+      var spy = sinon.spy();
+      var debounceCall = function () {
+        utils.debounce(function () {
+          spy;
+        }, 5000);
+      };
+
+      debounceCall();
+      this.clock.tick(4000);
+      expect(spy).to.not.be.called;
+      this.clock.tick(1000);
+      expect(spy).to.be.called;
+    });
+
   });
 
   describe('#deepEqual()', function () {
@@ -515,6 +576,51 @@ describe('Utils', function () {
       };
 
       expect(utils.deepEqual(testObject1, testObject2)).to.equal(true);
+    });
+
+    it('Should compare and pass smart objects', function () {
+      var testSmartObject1 = {
+        firstName: 'Oleh',
+        lastName: 'Kazban',
+        age: 35,
+        email: 'kazban.oleh@gmail.com',
+        address: 'Ukraine, Kharkiv, Academician Walter str., 19, apt. #567',
+        phone: '+380 67 776 06 70',
+        children: [
+          {
+            firstName: 'Dmitriy',
+            lastName: 'Kazban',
+            age: 8
+          },
+          {
+            firstName: 'Veronika',
+            lastName: 'Kazban',
+            age: 4
+          }
+        ]
+      };
+      var testSmartObject2 = {
+        firstName: 'Oleh',
+        lastName: 'Kazban',
+        age: 35,
+        email: 'kazban.oleh@gmail.com',
+        address: 'Ukraine, Kharkiv, Academician Walter str., 19, apt. #567',
+        phone: '+380 67 776 06 70',
+        children: [
+          {
+            firstName: 'Dmitriy',
+            lastName: 'Kazban',
+            age: 8
+          },
+          {
+            firstName: 'Veronika',
+            lastName: 'Kazban',
+            age: 4
+          }
+        ]
+      };
+
+      expect(utils.deepEqual(testSmartObject1, testSmartObject2)).to.equal(true);
     });
 
     it('Should compare and fail non equal objects of equal size', function () {
@@ -575,6 +681,110 @@ describe('Utils', function () {
 
       expect(utils.deepEqual(testObject1, testObject2)
       ).to.equal(false);
+    });
+  });
+
+  describe('#inputType()', function () {
+    it('Should accept null and return String \'null\'', function () {
+      expect(utils.inputType(null)).to.equal('null');
+    });
+
+    it('Should accept undefined and return String \'undefined\'', function () {
+      expect(utils.inputType(undefined)).to.equal('undefined');
+    });
+
+    it('Should accept Integer and return String \'number\'', function () {
+      expect(utils.inputType(123)).to.equal('number');
+    });
+
+    it('Should accept Float and return String \'number\'', function () {
+      expect(utils.inputType(7.62)).to.equal('number');
+    });
+
+    it('Should accept String and return String \'string\'', function () {
+      expect(utils.inputType('try to test me :)')).to.equal('string');
+    });
+
+    it('Should accept Boolean and return String \'boolean\'', function () {
+      expect(utils.inputType(false)).to.equal('boolean');
+    });
+
+    it('Should accept Array and return String \'array\'', function () {
+      expect(utils.inputType([0, 1, 2, 3, 4])).to.equal('array');
+    });
+
+    it('Should accept Object and return String \'object\'', function () {
+      expect(utils.inputType({name: 'testObject'})).to.equal('object');
+    });
+
+    it('Should return String', function () {
+      expect(utils.inputType({name: 'testObject'})).to.be.a('string');
+    });
+
+    it('Should not return an Object', function () {
+      expect(utils.inputType({name: 'testObject'})).to.not.be.a('object');
+    });
+
+    it('Should not return an Array', function () {
+      expect(utils.inputType({name: 'testObject'})).to.not.be.a('array');
+    });
+
+    it('Should not return Null if input is Null', function () {
+      expect(utils.inputType(null)).to.not.be.a('null');
+    });
+
+    it('Should not return Undefined if input is Undefined', function () {
+      expect(utils.inputType(undefined)).to.not.be.a('undefined');
+    });
+
+    it('Should not return true or false (Boolean)', function () {
+      expect(utils.inputType(undefined)).to.not.be.a('boolean');
+    });
+
+    it('Should throw an Error if input is empty', function () {
+      expect(function () {
+        utils.inputType();
+      }).to.throwError('Empty input!');
+    });
+  });
+
+  describe('#toString()', function () {
+    it('Should return a String', function () {
+      expect(utils.toString([0, 1, 2, 3, 4])).to.be.a('string');
+    });
+
+    it('Should accept an Array and return a String', function () {
+      var testArray = [0, 1, 2, 3, 4];
+      var expectedString = 'cell #0	: 0\ncell #1	: 1\ncell #2	: 2\ncell #3	: 3\ncell #4	: 4';
+
+      expect(utils.toString(testArray)).to.equal(expectedString);
+    });
+
+    it('Should accept an Object and return a String', function () {
+      var testObject = {
+        name: 'User name'
+      };
+      var expectedString = 'name : User name\n';
+
+      expect(utils.toString(testObject)).to.equal(expectedString);
+    });
+
+    it('Should throw an Error if input is Null', function () {
+      expect(function () {
+        utils.toString(null);
+      }).to.throwError('Invalid input');
+    });
+
+    it('Should throw an Error if input is Undefined', function () {
+      expect(function () {
+        utils.toString(undefined);
+      }).to.throwError('Invalid input');
+    });
+
+    it('Should return the same String if input is String', function () {
+      var testString = 'try to test me :)';
+
+      expect(utils.toString(testString)).to.equal(testString);
     });
   });
 
