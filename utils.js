@@ -352,6 +352,7 @@ module.exports = {
    * @return {String} array: if input is array
    * @return {String} object: if input is object
    */
+
   inputType: function (input) {
     if (module.exports.inputType.arguments.length > 0) {
       var result = Object.prototype.toString.call(input).toUpperCase();
