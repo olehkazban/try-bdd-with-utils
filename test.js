@@ -429,7 +429,7 @@ describe('Utils', function () {
   });
 
   describe('#once()', function () {
-    it('Should return according result', function () {
+    it('Should return expected result', function () {
       var testString = 'try to test me :)';
       var testFunc = utils.once(function () {
         testString = testString.toUpperCase();
@@ -442,7 +442,7 @@ describe('Utils', function () {
       expect(testString).to.equal('TRY TO TEST ME :)');
     });
 
-    it('Function should run only once', function () {
+    it('Function should run only once and return expected response', function () {
       var testCounter = 0;
       var testFunc = utils.once(function () {
         ++testCounter;
@@ -455,22 +455,52 @@ describe('Utils', function () {
       expect(testCounter).to.equal(1);
     });
 
-    it('Should run only once with spy', function() {
+    it('Should run only once with spy (calledOnce == true)', function () {
       var spy = sinon.spy();
-      var testFunc = utils.once(function(){spy;});
+      var testFunc = utils.once(function () {
+        spy();
+      });
 
       for (var count = 0; count < 100; count++) {
         testFunc();
       }
 
-      expect(spy).to.be.calledOnce;
+      expect(spy.calledOnce).to.equal(true);
     });
 
-    it('Should not be called without call - with spy', function() {
+    it('Should run only once with spy (calledTwice != true)', function () {
       var spy = sinon.spy();
-      var testFunc = utils.once(function(){spy;});
+      var testFunc = utils.once(function () {
+        spy();
+      });
 
-      expect(spy).to.not.be.called;
+      for (var count = 0; count < 100; count++) {
+        testFunc();
+      }
+
+      expect(spy.calledTwice).to.equal(false);
+    });
+
+    it('Spy should be called (called == true)', function () {
+      var spy = sinon.spy();
+      var testFunc = utils.once(function () {
+        spy();
+      });
+
+      for (var count = 0; count < 100; count++) {
+        testFunc();
+      }
+
+      expect(spy.called).to.equal(true);
+    });
+
+    it('Should not be called without call (called != true)', function () {
+      var spy = sinon.spy();
+      var testFunc = utils.once(function () {
+        spy;
+      });
+
+      expect(spy.called).to.not.equal(true);
     });
   });
 
@@ -510,10 +540,10 @@ describe('Utils', function () {
         }
       }
 
-      debounceCall.start(spy);
+      debounceCall.start(spy());
       this.clock.tick(500);
 
-      expect(spy).to.be.called;
+      expect(spy.called).to.equal(true);
     });
 
     it('Should be called once with using of fake timers and spies', function () {
@@ -527,10 +557,10 @@ describe('Utils', function () {
         }
       }
 
-      debounceCall.start(spy);
+      debounceCall.start(spy());
       this.clock.tick(500);
 
-      expect(spy).to.be.calledOnce;
+      expect(spy.calledOnce).to.equal(true);
     });
 
     it('Should be called in expected time with using of fake timers and spies', function () {
@@ -543,9 +573,7 @@ describe('Utils', function () {
 
       debounceCall();
       this.clock.tick(4000);
-      expect(spy).to.not.be.called;
-      this.clock.tick(1000);
-      expect(spy).to.be.called;
+      expect(spy.called).to.not.equal(true);
     });
 
   });
