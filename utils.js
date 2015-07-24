@@ -1,5 +1,4 @@
-module.exports = {
-
+var util = {
   /**
    * Sort given array by provided rule in comparator function
    * @param {Array|Object[]} list
@@ -7,7 +6,7 @@ module.exports = {
    */
 
   sort: function (list, comparator) {
-    if (module.exports.inputType(list) === 'array') { // we should ensure that input is an Array, not something else
+    if (util.inputType(list) === 'array') { // we should ensure that input is an Array, not something else
 
       for (var barrier = list.length - 1; barrier >= 0; barrier--) {
         for (var count = 0; count < barrier; count++) {
@@ -20,10 +19,10 @@ module.exports = {
       }
 
       return list;
-    } else if (module.exports.inputType(list) === 'object') {
+    } else if (util.inputType(list) === 'object') {
       for (var property in list) {
-        if (list.hasOwnProperty(property) && module.exports.inputType(list[property]) === 'array') {
-          list[property] = module.exports.sort(list[property], comparator);
+        if (list.hasOwnProperty(property) && util.inputType(list[property]) === 'array') {
+          list[property] = util.sort(list[property], comparator);
         }
       }
 
@@ -40,7 +39,7 @@ module.exports = {
    */
 
   capitalize: function (string) {
-    if (module.exports.inputType(string) === 'string') {
+    if (util.inputType(string) === 'string') {
       string = string.toLowerCase();
       string = string.replace(/^[a-z]/, function (m) {
         return m.toUpperCase();
@@ -60,30 +59,30 @@ module.exports = {
 
   camelize: function (sequence) {
     if (
-    module.exports.inputType(sequence) === 'array' ||
-    module.exports.inputType(sequence) === 'string'
+      util.inputType(sequence) === 'array' ||
+      util.inputType(sequence) === 'string'
     ) {
       var string = '';
 
-      if (module.exports.inputType(sequence) === 'array') {
+      if (util.inputType(sequence) === 'array') {
         for (var counter = 0; counter < sequence.length; counter++) {
           if ((typeof sequence[counter]) === 'object') {
             var subSequence = sequence[counter];
-            string += module.exports.camelize(subSequence);
+            string += util.camelize(subSequence);
           } else if (/\s/.test(sequence[counter])) {
             var subSequence = sequence[counter].split(' ');
-            string += module.exports.camelize(subSequence);
+            string += util.camelize(subSequence);
           } else {
             sequence[counter] = sequence[counter].replace(/\W/, ''); // removing spec chars
             sequence[counter] = sequence[counter].replace(/[0-9]]/); // removing digits
 
-            string += module.exports.capitalize(sequence[counter]);
+            string += util.capitalize(sequence[counter]);
           }
         }
       }
-      else if (module.exports.inputType(sequence) === 'string') {
+      else if (util.inputType(sequence) === 'string') {
         var subSequence = sequence.split(' ');
-        string += module.exports.camelize(subSequence);
+        string += util.camelize(subSequence);
       }
 
       return string;
@@ -99,7 +98,7 @@ module.exports = {
    */
 
   trim: function (string) {
-    if (module.exports.inputType(string) === 'string') {
+    if (util.inputType(string) === 'string') {
       string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
 
       return string;
@@ -116,7 +115,7 @@ module.exports = {
 
   reverse: function (list) {
 
-    if (module.exports.inputType(list) === 'array') {
+    if (util.inputType(list) === 'array') {
       for (var count = 0; count < list.length / 2; count++) {
         var tmp = list[count];
         list[count] = list[list.length - 1 - count];
@@ -138,7 +137,7 @@ module.exports = {
 
   map: function (list, iterator) {
 
-    if (module.exports.inputType(list) === 'object') {
+    if (util.inputType(list) === 'object') {
       var newObject = {};
 
       for (var listProperty in list) {
@@ -148,7 +147,7 @@ module.exports = {
       }
 
       return newObject;
-    } else if (module.exports.inputType(list) === 'array') {
+    } else if (util.inputType(list) === 'array') {
       var newList = [];
 
       for (var count = 0; count < list.length; count++) {
@@ -169,7 +168,7 @@ module.exports = {
    */
 
   groupBy: function (list, iterator) {
-    if (module.exports.inputType(list) === 'array') {
+    if (util.inputType(list) === 'array') {
       var object = {};
 
       for (var count = 0; count < list.length; count++) {
@@ -217,7 +216,7 @@ module.exports = {
 
   debounce: function (func, wait) {
 
-    var result = setTimeout(function(){
+    var result = setTimeout(function () {
       func.apply(this, arguments);
     }, wait);
 
@@ -232,8 +231,8 @@ module.exports = {
 
   deepEqual: function (value1, value2) {
 
-    if (module.exports.inputType(value1) === 'object' &&
-        module.exports.inputType(value2) === 'object'
+    if (util.inputType(value1) === 'object' &&
+      util.inputType(value2) === 'object'
     ) {
 
       if (Object.keys(value1).length !== Object.keys(value2).length) {
@@ -243,15 +242,15 @@ module.exports = {
 
         for (var key in value1) {
           if (
-            module.exports.inputType(value1[key]) === 'object' &&
-            module.exports.inputType(value2[key]) === 'object'
+            util.inputType(value1[key]) === 'object' &&
+            util.inputType(value2[key]) === 'object'
           ) {
-            return module.exports.deepEqual(value1[key], value2[key]);
+            return util.deepEqual(value1[key], value2[key]);
           } else if (
-            module.exports.inputType(value1[key]) === 'array' &&
-            module.exports.inputType(value2[key]) === 'array'
+            util.inputType(value1[key]) === 'array' &&
+            util.inputType(value2[key]) === 'array'
           ) {
-            return module.exports.deepEqual(value1[key], value2[key]);
+            return util.deepEqual(value1[key], value2[key]);
           } else {
             flags.push(value1[key] === value2[key]);
           }
@@ -264,8 +263,8 @@ module.exports = {
         }
       }
     } else if (
-      module.exports.inputType(value1) === 'array' &&
-      module.exports.inputType(value2) === 'array'
+      util.inputType(value1) === 'array' &&
+      util.inputType(value2) === 'array'
     ) {
       if (value1.length != value2.length) {
         return false;
@@ -274,15 +273,15 @@ module.exports = {
 
         for (var count = 0; count < value1.length; count++) {
           if (
-            module.exports.inputType(value1[count]) === 'object' &&
-            module.exports.inputType(value2[count]) === 'object'
+            util.inputType(value1[count]) === 'object' &&
+            util.inputType(value2[count]) === 'object'
           ) {
-            return module.exports.deepEqual(value1[count], value2[count]);
+            return util.deepEqual(value1[count], value2[count]);
           } else if (
-            module.exports.inputType(value1[count]) === 'array' &&
-            module.exports.inputType(value2[count]) === 'array'
+            util.inputType(value1[count]) === 'array' &&
+            util.inputType(value2[count]) === 'array'
           ) {
-            return module.exports.deepEqual(value1[count], value2[count]);
+            return util.deepEqual(value1[count], value2[count]);
           } else {
             flags.push(value1[count] === value2[count]);
           }
@@ -310,11 +309,11 @@ module.exports = {
   toString: function (object) {
     var string = '';
 
-    if (module.exports.inputType(object) === 'array') {
+    if (util.inputType(object) === 'array') {
       for (var count = 0; count < object.length; count++) {
-        if (module.exports.inputType(object[count]) === 'array' ||
-          module.exports.inputType(object[count]) === 'object') {
-          string += 'cell #' + count + '\t: \n' + module.exports.toString(object[count]);
+        if (util.inputType(object[count]) === 'array' ||
+          util.inputType(object[count]) === 'object') {
+          string += 'cell #' + count + '\t: \n' + util.toString(object[count]);
         } else {
           string += 'cell #' + count + '\t: ' + object[count];
         }
@@ -322,16 +321,16 @@ module.exports = {
           string += '\n';
         }
       }
-    } else if (module.exports.inputType(object) === 'object') {
+    } else if (util.inputType(object) === 'object') {
       for (var objectProperty in object) {
-        if (module.exports.inputType(object[objectProperty]) === 'object' ||
-          module.exports.inputType(object[objectProperty]) === 'array') {
-          string += objectProperty + '\t: \n' + module.exports.toString(object[objectProperty]) + '\n';
+        if (util.inputType(object[objectProperty]) === 'object' ||
+          util.inputType(object[objectProperty]) === 'array') {
+          string += objectProperty + '\t: \n' + util.toString(object[objectProperty]) + '\n';
         } else {
           string += objectProperty + ' : ' + object[objectProperty] + '\n';
         }
       }
-    } else if (module.exports.inputType(object) === 'string') {
+    } else if (util.inputType(object) === 'string') {
       string += object;
     }
     else {
@@ -354,7 +353,7 @@ module.exports = {
    */
 
   inputType: function (input) {
-    if (module.exports.inputType.arguments.length > 0) {
+    if (util.inputType.arguments.length > 0) {
       var result = Object.prototype.toString.call(input).toUpperCase();
 
       result = result.substring(1, result.length - 1);
@@ -366,3 +365,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = util;
