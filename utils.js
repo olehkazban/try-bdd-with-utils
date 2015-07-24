@@ -6,6 +6,8 @@ var util = {
    */
 
   sort: function (list, comparator) {
+    'use strict';
+
     if (util.inputType(list) === 'array') { // we should ensure that input is an Array, not something else
 
       for (var barrier = list.length - 1; barrier >= 0; barrier--) {
@@ -39,6 +41,8 @@ var util = {
    */
 
   capitalize: function (string) {
+    'use strict';
+
     if (util.inputType(string) === 'string') {
       string = string.toLowerCase();
       string = string.replace(/^[a-z]/, function (m) {
@@ -58,6 +62,8 @@ var util = {
    */
 
   camelize: function (sequence) {
+    'use strict';
+
     if (
       util.inputType(sequence) === 'array' ||
       util.inputType(sequence) === 'string'
@@ -98,6 +104,8 @@ var util = {
    */
 
   trim: function (string) {
+    'use strict';
+
     if (util.inputType(string) === 'string') {
       string = string.replace(/(^\s*)/, '').replace(/(\s*$)/, '');
 
@@ -114,6 +122,7 @@ var util = {
    */
 
   reverse: function (list) {
+    'use strict';
 
     if (util.inputType(list) === 'array') {
       for (var count = 0; count < list.length / 2; count++) {
@@ -136,6 +145,7 @@ var util = {
    */
 
   map: function (list, iterator) {
+    'use strict';
 
     if (util.inputType(list) === 'object') {
       var newObject = {};
@@ -168,6 +178,8 @@ var util = {
    */
 
   groupBy: function (list, iterator) {
+    'use strict';
+
     if (util.inputType(list) === 'array') {
       var object = {};
 
@@ -194,6 +206,8 @@ var util = {
    */
 
   once: function (func) {
+    'use strict';
+
     var executed = false;
 
     return function () {
@@ -215,6 +229,7 @@ var util = {
    */
 
   debounce: function (func, wait) {
+    'use strict';
 
     var result = setTimeout(function () {
       func.apply(this, arguments);
@@ -230,6 +245,7 @@ var util = {
    */
 
   deepEqual: function (value1, value2) {
+    'use strict';
 
     if (util.inputType(value1) === 'object' &&
       util.inputType(value2) === 'object'
@@ -307,6 +323,8 @@ var util = {
    */
 
   toString: function (object) {
+    'use strict';
+
     var string = '';
 
     if (util.inputType(object) === 'array') {
@@ -353,6 +371,7 @@ var util = {
    */
 
   inputType: function (input) {
+
     if (util.inputType.arguments.length > 0) {
       var result = Object.prototype.toString.call(input).toUpperCase();
 
